@@ -1,14 +1,18 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ClientGUI extends JFrame implements ActionListener {
+
+public class ClientGUI extends JFrame implements ListSelectionListener, ActionListener {
 
     // Setting variables globally
     JPanel backPanel, mainPanel, brandPanel, rightPanel, specPanel;
     JLabel sign, buildTitle;
     JTextArea displayArea;
-    JComboBox specType, brandType, contactType, sunType;
+    JComboBox brandType, contactType, sunType;
+    JawtList specType;
     FrameTypes ft;
     Ocular frames;
     JMenu mnuFile, options, helpFile;
@@ -71,7 +75,13 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         setJMenuBar(mBar);
 
-        sign = new JLabel("Temp");
+        // Welcome label
+        // Setting fonts and preferred size
+        sign = new JLabel("Vision Express");
+        sign.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
+        sign.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        sign.setForeground(Color.black);
+        sign.setHorizontalAlignment(JLabel.CENTER);
         backPanel.add(sign, BorderLayout.NORTH);
 
         mainPanel = new JPanel();
@@ -79,7 +89,9 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         // Type of ocular assistance
         String [] glassesType = {"Frames", "Sunglasses", "Contact Lenses"};
-        specType = new JComboBox(glassesType);
+//        specType = new JComboBox(glassesType);
+
+        specType = new JawtList(3);
 
         // Brand names for contact lenses
         String [] brandsContact = {"Eye Expert", "Expert Comfort plus", "Kiba Vision", "Alcon"};
@@ -98,7 +110,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         rightPanel = new JPanel(new GridLayout(2,1));
 
         buildTitle = new JLabel("Your Current Build:");
-        buildTitle.setFont(new Font("Comic Sans", Font.BOLD, 18));
+        buildTitle.setFont(new Font("Sans Serif", Font.BOLD, 18));
         buildTitle.setHorizontalAlignment(SwingConstants.CENTER);
         buildTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 
@@ -127,17 +139,26 @@ public class ClientGUI extends JFrame implements ActionListener {
         gbc.insets = new Insets(10, 10, 10,10);
 
         brandType.addActionListener(this);
-        specType.addActionListener(this);
+//        specType.addActionListener(this);
         contactType.addActionListener(this);
         sunType.addActionListener(this);
 
+        JLabel specify = new JLabel("Select product");
+        specPanel.add(specify);
         specPanel.add(specType);
+
+        specPanel.setPreferredSize(new Dimension(150, 200));
+
         specPanel.setBackground(new Color(0, 102, 255));
         mainPanel.add(specPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.NORTHWEST;
+
+        JLabel specify1 = new JLabel("Select the brand");
+        brandPanel.add(specify1);
+
         brandPanel.add(brandType);
         brandPanel.add(contactType);
         brandPanel.add(sunType);
@@ -145,6 +166,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         sunType.setVisible(false);
         contactType.setVisible(false);
 
+        brandPanel.setPreferredSize(new Dimension(150, 200));
         brandPanel.setVisible(false);
         brandPanel.setBackground(new Color(0, 102, 255));
         mainPanel.add(brandPanel, gbc);
@@ -165,7 +187,6 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         mainPanel.setBackground(new Color(100, 149, 237));
 
-
         backPanel.add(mainPanel, BorderLayout.CENTER);
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -179,7 +200,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 
 //        CommandHolder obj = (CommandHolder) e.getSource();
 //        obj.getCommand().Execute();
-
+/*
         if (e.getSource() == specType) {
             frames = ft.getOcular(specType.getSelectedItem().toString());
 
@@ -206,6 +227,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 
             updateDisplay();
         }
+        */
     }
 
 //        if(e.getSource() == brandType){
@@ -231,5 +253,10 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     public static void main(String []  args)  {
         ClientGUI gui = new ClientGUI();
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
     }
 }
