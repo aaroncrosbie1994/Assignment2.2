@@ -1,3 +1,5 @@
+import oracle.jrockit.jfr.JFR;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,6 +28,8 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     multiChoice mchoice;
     choiceFactory cfact;
     JButton select;
+    ClientGUI gui;
+
 
     // Initial setup within the constructor
     ClientGUI() {
@@ -102,23 +106,17 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        // Type of ocular assistance
-        String [] glassesType = {"Frames", "Sunglasses", "Contact Lenses"};
-//        specType = new JComboBox(glassesType);
-
-
-
-        // Brand names for contact lenses
-        String [] brandsContact = {"Eye Expert", "Expert Comfort plus", "Kiba Vision", "Alcon"};
-        contactType = new JComboBox(brandsContact);
-
-        // Brand names for sunglasses
-        String [] brandsSun = {"Hugo Boss", "Oakley", "Ted Baker", "Polaroid", "VE", "Gucci", "Paul Smyth", "Tiffany"};
-        sunType = new JComboBox(brandsSun);
-
-        // Brand names for normal glasses
-        String [] brands = {"Oakley", "Ted Baker", "Calvin Klein", "Minn Kinn", "Heritage", "Tagheur", "Tiffany", "Speedo", "LightFly"};
-        brandType = new JComboBox(brands);
+//        // Brand names for contact lenses
+//        String [] brandsContact = {"Eye Expert", "Expert Comfort plus", "Kiba Vision", "Alcon"};
+//        contactType = new JComboBox(brandsContact);
+//
+//        // Brand names for sunglasses
+//        String [] brandsSun = {"Hugo Boss", "Oakley", "Ted Baker", "Polaroid", "VE", "Gucci", "Paul Smyth", "Tiffany"};
+//        sunType = new JComboBox(brandsSun);
+//
+//        // Brand names for normal glasses
+//        String [] brands = {"Oakley", "Ted Baker", "Calvin Klein", "Minn Kinn", "Heritage", "Tagheur", "Tiffany", "Speedo", "LightFly"};
+//        brandType = new JComboBox(brands);
 
         specPanel = new JPanel();
         brandPanel = new JPanel();
@@ -128,10 +126,6 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         buildTitle.setFont(new Font("Sans Serif", Font.BOLD, 18));
         buildTitle.setHorizontalAlignment(SwingConstants.CENTER);
         buildTitle.setVerticalAlignment(SwingConstants.BOTTOM);
-
-
-
-
 
         forIcon = new JLabel();
         forIcon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,9 +149,9 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(10, 10, 10,10);
 
-        brandType.addActionListener(this);
-        contactType.addActionListener(this);
-        sunType.addActionListener(this);
+//        brandType.addActionListener(this);
+//        contactType.addActionListener(this);
+//        sunType.addActionListener(this);
 
         JLabel specify = new JLabel("Select product");
         specify.setForeground(Color.white);
@@ -186,12 +180,12 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         JLabel specify1 = new JLabel("Select the brand");
         brandPanel.add(specify1);
 
-        brandPanel.add(brandType);
-        brandPanel.add(contactType);
-        brandPanel.add(sunType);
+//        brandPanel.add(brandType);
+//        brandPanel.add(contactType);
+//        brandPanel.add(sunType);
 
-        sunType.setVisible(false);
-        contactType.setVisible(false);
+//        sunType.setVisible(false);
+//        contactType.setVisible(false);
 
         brandPanel.setPreferredSize(new Dimension(150, 200));
         brandPanel.setVisible(false);
@@ -240,8 +234,22 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     public void choiceSelected(){
         Vector v = null;
         int index = specType.getSelectedIndex();
+
+
+        // This is only a temp.
+        // Singleton needs to be initialised
+        // for this to work properly
+        if(specType.getSelectedItems().length > 1 ){
+            JOptionPane.showMessageDialog(gui,
+                    "You cannot select more than one items",
+                    "Please try again",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        if(specType.getSelectedItems().length == 1 ){
+            specPanel.repaint();
+            specPanel.updateUI();
+        }
         brandPanel.removeAll();
-        System.out.println(specType.getSelectedIndex());
 
         switch (index) {
             case 0:
@@ -278,16 +286,21 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
             Glasses.addElement("LightFly");
 
             SunGlass = new Vector();
-            SunGlass.addElement("Cisco");
-            SunGlass.addElement("Coca Cola");
-            SunGlass.addElement("General Electric");
-            SunGlass.addElement("Harley Davidson");
+            SunGlass.addElement("Hugo Boss");
+            SunGlass.addElement("Oakley");
+            SunGlass.addElement("Ted Baker");
+            SunGlass.addElement("Polaroid");
+            SunGlass.addElement("VE");
+            SunGlass.addElement("Gucci");
+            SunGlass.addElement("Paul Smyth");
+            SunGlass.addElement("Tiffany");
 
             CLs = new Vector();
-            CLs.addElement("Fidelity Magellan");
-            CLs.addElement("T Rowe Price");
-            CLs.addElement("Vanguard PrimeCap");
-            CLs.addElement("Lindner Fund");
+            CLs.addElement("Eye Expert");
+            CLs.addElement("Expert Comfort plus");
+            CLs.addElement("Kiba Vision");
+            CLs.addElement("Alcon");
+            CLs.addElement("Sauflon");
     }
 
 
@@ -346,7 +359,7 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     }
 
     public static void main(String []  args)  {
-        ClientGUI gui = new ClientGUI();
+         new ClientGUI();
     }
 
 }
