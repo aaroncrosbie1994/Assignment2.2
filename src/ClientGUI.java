@@ -20,8 +20,10 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     Ocular frames;
     JMenu mnuFile, options, helpFile;
     JMenuItem showCurrent, mute, creators, noHelp;
-    ExitCommand extc;
-    cmdMenu  close;
+    ExitCommand exitCmd;
+    CurrentBuildCommand currBuildCmd;
+    AuthorsCommand authorsCmd;
+    cmdMenu  close, showCurr, authors;
     ImageIcon showIcon;
     JLabel forIcon;
     Vector Glasses, SunGlass, CLs;
@@ -69,23 +71,30 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         mBar.add(options);
         mBar.add(helpFile);
 
-        showCurrent = new JMenuItem("Current build");
+        showCurr = new cmdMenu("Current Build", this);
+        authors = new cmdMenu("Authors", this);
+        close = new cmdMenu("Close", this);
+
+        currBuildCmd = new CurrentBuildCommand(frames);
+        authorsCmd = new AuthorsCommand();
+
+        showCurr.setCommand(currBuildCmd);
+        authors.setCommand(authorsCmd);
+        close.setCommand(exitCmd);
+
         mute = new JMenuItem("Mute sound");
-        creators = new JMenuItem("Creators");
         noHelp = new JMenuItem("No help");
+
+        close.addActionListener(this);
 
 
 //        update = new cmdMenu("Close", this);
 //        update.setCommand (new UpdateCommand());
 
-        close = new cmdMenu("Close", this);
-        close.setCommand (new ExitCommand());
 
         mnuFile.add(showCurrent);
         mnuFile.add(close);
-        close.addActionListener(this);
         options.add(mute);
-
         helpFile.add(creators);
         helpFile.add(noHelp);
 
@@ -225,9 +234,16 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     }
 
     public void actionPerformed(ActionEvent ev) {
-        plDialog pl = new plDialog(this, mchoice);
-        pl.show();
-        brandPanel.setVisible(true);
+//        plDialog pl = new plDialog(this, mchoice);
+//        pl.show();
+//        brandPanel.setVisible(true);
+        try {
+            CommandHolder ch = (CommandHolder) ev.getSource();
+            ch.getCommand().Execute();
+        }
+        catch(Exception ex){
+            System.out.println("");
+        }
 
     }
 
