@@ -85,6 +85,8 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         mute = new JMenuItem("Mute sound");
         noHelp = new JMenuItem("No help");
 
+        showCurr.addActionListener(this);
+        authors.addActionListener(this);
         close.addActionListener(this);
 
 
@@ -92,10 +94,10 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
 //        update.setCommand (new UpdateCommand());
 
 
-        mnuFile.add(showCurrent);
+        mnuFile.add(showCurr);
         mnuFile.add(close);
         options.add(mute);
-        helpFile.add(creators);
+        helpFile.add(authors);
         helpFile.add(noHelp);
 
         setJMenuBar(mBar);
