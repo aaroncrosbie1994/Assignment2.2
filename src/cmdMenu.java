@@ -4,13 +4,13 @@ public class cmdMenu extends JMenuItem implements CommandHolder {
    protected Command menuCommand;
    protected JFrame frame;
 //-----------------------
-   public cmdMenu(String name, JFrame frm) {
+   public cmdMenu(String name, JFrame frame) {
       super(name);
-      frame = frm;
+      this.frame = frame;
    }
 //-----------------------
-   public void setCommand(Command comd) {
-      menuCommand = comd;
+   public void setCommand(Command command) {
+      menuCommand = command;
    }
 //-----------------------
    public Command getCommand() {
