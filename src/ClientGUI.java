@@ -90,11 +90,6 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
         authors.addActionListener(this);
         close.addActionListener(this);
 
-
-//        update = new cmdMenu("Close", this);
-//        update.setCommand (new UpdateCommand());
-
-
         mnuFile.add(showCurr);
         mnuFile.add(close);
         options.add(mute);
@@ -233,19 +228,31 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
     }
     @Override
     public void valueChanged(ListSelectionEvent e) {
+        if(e.getSource() == specType){
+            frames.setType(specType.getSelectedItems().toString());
+        }
+        else if(e.getSource() == brandType){
+            frames.setBrand(brandType.getSelectedItem().toString());
+        }
+//        if(frames.getType() != null) {
+//            updateDisplay();
+//        }
         choiceSelected();
     }
 
     public void actionPerformed(ActionEvent ev) {
-//        plDialog pl = new plDialog(this, mchoice);
-//        pl.show();
-//        brandPanel.setVisible(true);
-        try {
-            CommandHolder ch = (CommandHolder) ev.getSource();
-            ch.getCommand().Execute();
+        if(ev.getSource() == authors || ev.getSource() == close || ev.getSource() == showCurr) {
+            try {
+                CommandHolder ch = (CommandHolder) ev.getSource();
+                ch.getCommand().Execute();
+            } catch (Exception ex) {
+                System.out.println("");
+            }
         }
-        catch(Exception ex){
-            System.out.println("");
+        else{
+            plDialog pl = new plDialog(this, mchoice);
+            pl.show();
+            brandPanel.setVisible(true);
         }
 
     }
