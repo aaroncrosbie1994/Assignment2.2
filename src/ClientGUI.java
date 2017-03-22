@@ -77,6 +77,7 @@ public class ClientGUI extends JFrame implements ListSelectionListener, ActionLi
 
         currBuildCmd = new CurrentBuildCommand(frames);
         authorsCmd = new AuthorsCommand();
+        exitCmd = new ExitCommand();
 
         showCurr.setCommand(currBuildCmd);
         authors.setCommand(authorsCmd);
